@@ -128,22 +128,27 @@ const scriptURL="https://script.google.com/macros/s/AKfycbxi_nvk2MVl_wJIajGfyqyR
 
 function submitData(){
 
-  const data=new URLSearchParams();
-  data.append("date",document.getElementById("date").value);
-  data.append("type",document.getElementById("type").value);
-  data.append("category",document.getElementById("category").value);
-  data.append("amount",document.getElementById("amount").value);
-  data.append("fileName","-");
-  data.append("fileUrl","-");
+  const formData = new FormData();
+  formData.append("date", document.getElementById("date").value);
+  formData.append("type", document.getElementById("type").value);
+  formData.append("category", document.getElementById("category").value);
+  formData.append("amount", document.getElementById("amount").value);
 
   fetch(scriptURL,{
     method:"POST",
-    body:data,
-    mode:"no-cors"
+    body: formData
   })
-  .then(()=>{
+  .then(res=>res.text())
+  .then(res=>{
+    console.log(res);
+    alert("บันทึกสำเร็จ");
     loadData();
+  })
+  .catch(err=>{
+    console.error(err);
+    alert("Error");
   });
+
 }
 
 function loadData(){
@@ -289,3 +294,4 @@ loadData();
 </script>
 </body>
 </html>
+
